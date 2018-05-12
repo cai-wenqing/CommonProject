@@ -1,31 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/action_home"
-        android:enabled="true"
         android:icon="@mipmap/ic_launcher"
-        android:title="@string/main_bottom_home"
-        app:showAsAction="ifRoom" />
+        android:title="@string/main_bottom_home" />
 
     <item
         android:id="@+id/action_tree"
-        android:enabled="true"
         android:icon="@mipmap/ic_launcher"
-        android:title="@string/main_bottom_tree"
-        app:showAsAction="ifRoom" />
+        android:title="@string/main_bottom_tree"/>
 
     <item
         android:id="@+id/action_project"
-        android:enabled="true"
         android:icon="@mipmap/ic_launcher"
-        android:title="@string/main_bottom_project"
-        app:showAsAction="ifRoom" />
+        android:title="@string/main_bottom_project"/>
 
     <item
         android:id="@+id/action_mine"
-        android:enabled="true"
         android:icon="@mipmap/ic_launcher"
-        android:title="@string/main_bottom_mine"
-        app:showAsAction="ifRoom" />
+        android:title="@string/main_bottom_mine"/>
 </menu>

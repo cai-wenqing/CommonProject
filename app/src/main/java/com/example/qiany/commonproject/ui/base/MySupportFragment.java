@@ -1,8 +1,11 @@
 package com.example.qiany.commonproject.ui.base;
 
+import android.app.Activity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+import android.view.animation.Animation;
 
 import com.trello.rxlifecycle2.components.support.RxFragment;
 
@@ -26,6 +29,36 @@ public class MySupportFragment extends RxFragment implements ISupportFragment{
         return mDelegate;
     }
 
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mDelegate.onAttach(activity);
+        _mActivity = mDelegate.getActivity();
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mDelegate.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mDelegate.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {
+        return mDelegate.onCreateAnimation(transit, enter, nextAnim);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mDelegate.onActivityCreated(savedInstanceState);
+    }
+
     /**
      * Perform some extra transactions.
      * 额外的事务：自定义Tag，添加SharedElement动画，操作非回退栈Fragment
@@ -34,6 +67,43 @@ public class MySupportFragment extends RxFragment implements ISupportFragment{
     public ExtraTransaction extraTransaction() {
         return mDelegate.extraTransaction();
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mDelegate.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mDelegate.onPause();
+    }
+
+    @Override
+    public void onDestroyView() {
+        mDelegate.onDestroyView();
+        super.onDestroyView();
+    }
+
+    @Override
+    public void onDestroy() {
+        mDelegate.onDestroy();
+        super.onDestroy();
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        mDelegate.onHiddenChanged(hidden);
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        mDelegate.setUserVisibleHint(isVisibleToUser);
+    }
+
 
     /**
      * Causes the Runnable r to be added to the action queue.
