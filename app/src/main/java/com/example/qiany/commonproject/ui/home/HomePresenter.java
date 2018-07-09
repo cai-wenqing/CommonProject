@@ -5,15 +5,8 @@ import android.util.Log;
 import com.example.qiany.commonproject.bean.ArticleBean;
 import com.example.qiany.commonproject.net.DataManager;
 import com.example.qiany.commonproject.net.RxSchedulers;
-import com.example.qiany.commonproject.ui.base.BaseContract;
 import com.example.qiany.commonproject.ui.base.BaseObserver;
 import com.example.qiany.commonproject.ui.base.BasePresenter;
-
-import java.util.List;
-
-import io.reactivex.Scheduler;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * @author caiwenqing
