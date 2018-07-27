@@ -39,4 +39,9 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineCon
     public void initData() {
 
     }
+
+    @Override
+    public void onRetry(int status) {
+
+    }
 }

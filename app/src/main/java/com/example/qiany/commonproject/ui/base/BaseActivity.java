@@ -14,8 +14,10 @@ import com.example.qiany.commonproject.R;
 import com.example.qiany.commonproject.core.AppManager;
 import com.example.qiany.commonproject.utils.DialogHelper;
 import com.example.qiany.commonproject.utils.ToastUtils;
+import com.example.qiany.commonproject.widget.MultiStateView;
 import com.trello.rxlifecycle2.LifecycleTransformer;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
@@ -29,8 +31,13 @@ public abstract class BaseActivity<T1 extends BaseContract.Presenter> extends My
 
     protected android.view.View mRootView;
     protected Dialog mLoadingDialog = null;
+
+    @Nullable
+    @BindView(R.id.MultiStateView)
+    MultiStateView multiStateView;
     Unbinder unbinder;
 
+    @Nullable
     protected T1 mPresenter;
 
     @Override
@@ -40,7 +47,8 @@ public abstract class BaseActivity<T1 extends BaseContract.Presenter> extends My
         setContentView(mRootView);
         AppManager.getAppManager().addActivity(this);
         initPresenter();
-        initView(mRootView,savedInstanceState);
+        initMultiStatusView();
+        initView(mRootView, savedInstanceState);
         initData();
         mLoadingDialog = DialogHelper.getLoadingDialog(this);
     }
@@ -49,7 +57,7 @@ public abstract class BaseActivity<T1 extends BaseContract.Presenter> extends My
     @Override
     public View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = getLayoutInflater().inflate(getContentLayout(), container);
-        unbinder = ButterKnife.bind(this,view);
+        unbinder = ButterKnife.bind(this, view);
         return view;
     }
 
@@ -60,6 +68,24 @@ public abstract class BaseActivity<T1 extends BaseContract.Presenter> extends My
             mPresenter.attachView(this);
         } else {
             Log.i(TAG, "createPresenter()方法返回为null");
+        }
+    }
+
+    private void initMultiStatusView() {
+        if (multiStateView != null) {
+            multiStateView.addStateView(MultiStateView.STATE_EMPTY, R.layout.item_state_empty);
+            multiStateView.addStateView(MultiStateView.STATE_NONET, R.layout.item_state_nonet);
+            multiStateView.addStateView(MultiStateView.STATE_FAIL, R.layout.item_state_fali);
+            multiStateView.setOnClickRetryListener(new MultiStateView.onClickRetryListener() {
+                @Override
+                public void onClickRetry(int status) {
+                    /**
+                     * 重试，
+                     * state的值：MultiStateView.STATE_NONET（无网络）、MultiStateView.STATE_FAIL（加载失败）
+                     */
+                    onRetry(status);
+                }
+            });
         }
     }
 
@@ -89,6 +115,35 @@ public abstract class BaseActivity<T1 extends BaseContract.Presenter> extends My
     @Override
     public void toastMsg(String msg) {
         ToastUtils.ToastCenter(msg);
+    }
+
+
+    @Override
+    public void onFail() {
+        if (multiStateView != null) {
+            multiStateView.setViewStatus(MultiStateView.STATE_FAIL);
+        }
+    }
+
+    @Override
+    public void onNoNet() {
+        if (multiStateView != null) {
+            multiStateView.setViewStatus(MultiStateView.STATE_NONET);
+        }
+    }
+
+    @Override
+    public void onEmpty() {
+        if (multiStateView != null) {
+            multiStateView.setViewStatus(MultiStateView.STATE_EMPTY);
+        }
+    }
+
+    @Override
+    public void onSuccess() {
+        if (multiStateView != null) {
+            multiStateView.setShow(false);
+        }
     }
 
     @Override

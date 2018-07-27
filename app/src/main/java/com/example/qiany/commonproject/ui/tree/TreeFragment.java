@@ -1,11 +1,13 @@
 package com.example.qiany.commonproject.ui.tree;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import com.example.qiany.commonproject.R;
 import com.example.qiany.commonproject.ui.base.BaseFragment;
+
+import butterknife.BindView;
 
 /**
  * @author caiwenqing
@@ -13,6 +15,8 @@ import com.example.qiany.commonproject.ui.base.BaseFragment;
  * description:
  */
 public class TreeFragment extends BaseFragment<TreePresenter> implements TreeContract.View {
+    @BindView(R.id.tree_tv)
+    TextView treeTv;
 
     public static TreeFragment newInstance() {
         Bundle bundle = new Bundle();
@@ -33,9 +37,15 @@ public class TreeFragment extends BaseFragment<TreePresenter> implements TreeCon
 
     @Override
     public void initView(View view, Bundle savedInstanceState) {
+
     }
 
     @Override
     public void initData() {
+    }
+
+    @Override
+    public void onRetry(int status) {
+
     }
 }

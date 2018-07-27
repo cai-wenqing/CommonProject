@@ -25,6 +25,17 @@ public interface BaseContract {
 
         void toastMsg(String msg);
 
+        void onFail();
+
+        void onNoNet();
+
+        void onEmpty();
+
+        void onSuccess();
+
+        //加载失败或无网络时重试
+        void onRetry(int status);
+
         /**
          * 绑定生命周期
          * @param <T1>

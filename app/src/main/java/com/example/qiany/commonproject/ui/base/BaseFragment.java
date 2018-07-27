@@ -14,8 +14,10 @@ import android.widget.TextView;
 import com.example.qiany.commonproject.R;
 import com.example.qiany.commonproject.utils.DialogHelper;
 import com.example.qiany.commonproject.utils.ToastUtils;
+import com.example.qiany.commonproject.widget.MultiStateView;
 import com.trello.rxlifecycle2.LifecycleTransformer;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
@@ -24,13 +26,18 @@ import butterknife.Unbinder;
  * @data 2018/5/11
  * description:
  */
-public abstract class BaseFragment<T1 extends BaseContract.Presenter> extends MySupportFragment implements IBase<T1>,BaseContract.View {
+public abstract class BaseFragment<T1 extends BaseContract.Presenter> extends MySupportFragment implements IBase<T1>, BaseContract.View {
     private static final String TAG = "BaseFragment测试";
 
     protected View mRootView;
     protected Dialog mLoadingDialog = null;
+
+    @Nullable
+    @BindView(R.id.MultiStateView)
+    MultiStateView multiStateView;
     Unbinder unbinder;
 
+    @Nullable
     protected T1 mPresenter;
 
     @Nullable
@@ -50,8 +57,8 @@ public abstract class BaseFragment<T1 extends BaseContract.Presenter> extends My
 
     @Override
     public View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(getContentLayout(),container,false);
-        unbinder = ButterKnife.bind(this,view);
+        View view = inflater.inflate(getContentLayout(), container, false);
+        unbinder = ButterKnife.bind(this, view);
         return view;
     }
 
@@ -59,7 +66,26 @@ public abstract class BaseFragment<T1 extends BaseContract.Presenter> extends My
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initPresenter();
-        initView(view,savedInstanceState);
+        initMultiStatusView();
+        initView(view, savedInstanceState);
+    }
+
+    private void initMultiStatusView() {
+        if (multiStateView != null) {
+            multiStateView.addStateView(MultiStateView.STATE_EMPTY, R.layout.item_state_empty);
+            multiStateView.addStateView(MultiStateView.STATE_NONET, R.layout.item_state_nonet);
+            multiStateView.addStateView(MultiStateView.STATE_FAIL, R.layout.item_state_fali);
+            multiStateView.setOnClickRetryListener(new MultiStateView.onClickRetryListener() {
+                @Override
+                public void onClickRetry(int status) {
+                    /**
+                     * 重试，
+                     * state的值：MultiStateView.STATE_NONET（无网络）、MultiStateView.STATE_FAIL（加载失败）
+                     */
+                    onRetry(status);
+                }
+            });
+        }
     }
 
     @Override
@@ -104,6 +130,34 @@ public abstract class BaseFragment<T1 extends BaseContract.Presenter> extends My
     @Override
     public void toastMsg(String msg) {
         ToastUtils.ToastCenter(msg);
+    }
+
+    @Override
+    public void onFail() {
+        if (multiStateView != null) {
+            multiStateView.setViewStatus(MultiStateView.STATE_FAIL);
+        }
+    }
+
+    @Override
+    public void onNoNet() {
+        if (multiStateView != null) {
+            multiStateView.setViewStatus(MultiStateView.STATE_NONET);
+        }
+    }
+
+    @Override
+    public void onEmpty() {
+        if (multiStateView != null) {
+            multiStateView.setViewStatus(MultiStateView.STATE_EMPTY);
+        }
+    }
+
+    @Override
+    public void onSuccess() {
+        if (multiStateView != null) {
+            multiStateView.setShow(false);
+        }
     }
 
     @Override

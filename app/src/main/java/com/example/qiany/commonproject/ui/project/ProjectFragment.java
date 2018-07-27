@@ -39,4 +39,9 @@ public class ProjectFragment extends BaseFragment<ProjectPresenter> implements P
     public void initData() {
 
     }
+
+    @Override
+    public void onRetry(int status) {
+
+    }
 }

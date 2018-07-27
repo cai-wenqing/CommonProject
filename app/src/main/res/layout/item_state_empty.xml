@@ -4,8 +4,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/tree_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="我是体系" />
+        android:text="暂无内容哦~" />
 </android.support.constraint.ConstraintLayout>

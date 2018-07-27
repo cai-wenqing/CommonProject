@@ -1,8 +1,6 @@
 package com.example.qiany.commonproject.ui.base;
 
-import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.example.qiany.commonproject.net.APIException;
 import com.example.qiany.commonproject.utils.ToastUtils;
