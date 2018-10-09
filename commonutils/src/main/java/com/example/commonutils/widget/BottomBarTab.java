@@ -6,6 +6,8 @@ import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.animation.AnimationUtils;
+import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -21,7 +23,7 @@ public class BottomBarTab extends LinearLayout {
     private int mTabPosition = -1;
 
     public BottomBarTab(Context context, @DrawableRes int icon, String title) {
-        this(context, null, icon,  title);
+        this(context, null, icon, title);
     }
 
 
@@ -59,6 +61,8 @@ public class BottomBarTab extends LinearLayout {
         addView(mTextView);
     }
 
+    ScaleAnimation scaleAnimation2 = (ScaleAnimation) AnimationUtils.loadAnimation(getContext(), R.anim.bottomscalea);
+
     @Override
     public void setSelected(boolean selected) {
         super.setSelected(selected);
@@ -66,6 +70,9 @@ public class BottomBarTab extends LinearLayout {
             mIcon.setColorFilter(ContextCompat.getColor(mContext, R.color.colorPrimary));
             mTextView.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
 
+            mIcon.setAnimation(scaleAnimation2);
+            mTextView.setAnimation(scaleAnimation2);
+            scaleAnimation2.start();
         } else {
             mIcon.setColorFilter(ContextCompat.getColor(mContext, R.color.transparent));
             mTextView.setTextColor(ContextCompat.getColor(mContext, R.color.tab_unselect));
